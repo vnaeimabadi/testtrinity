@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-const initialState = {
+const initialState: any = {
   contactlist: null,
-  selectedContact:null
+  selectedContact: null,
 };
 
 const globalSlice = createSlice({
@@ -16,9 +16,9 @@ const globalSlice = createSlice({
       state.selectedContact = action.payload;
     },
     updateContactList(state, action) {
-      const tempData=state.contactlist.map((el,_)=>{
-        return action.payload.id===el.id?action.payload:el
-      })
+      const tempData = state.contactlist.map((el: any) => {
+        return action.payload.id === el.id ? action.payload : el;
+      });
       state.contactlist = tempData;
     },
   },

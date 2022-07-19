@@ -1,7 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 
-export const Avatar = props => {
+export const Avatar = (props: any) => {
   const {size} = props;
 
   return (
@@ -11,6 +11,7 @@ export const Avatar = props => {
         backgroundColor: '#ff8c00',
         width: size,
         height: size,
-      }}/>
+      }}
+    />
   );
 };

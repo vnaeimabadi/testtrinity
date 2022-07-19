@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-remix-icon';
 
-export const Header = props => {
+export const Header = (props: any) => {
   const {
     title,
     leftIcon,

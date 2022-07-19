@@ -12,16 +12,14 @@ import {RouteNames} from '../../constants';
 import data from '../../allContacts/data.json';
 import {Avatar} from '../../components/atoms/Avatar';
 import {Header} from '../../components/Header';
-import { wait } from '../../helpers/wait';
+import {wait} from '../../helpers/wait';
 
-
-
-const PageOne = ({navigation, route}) => {
+const PageOne = ({navigation, route}: any) => {
   const dispatch = useDispatch();
   const {contactlist} = useSelector(state => state.globalState);
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const updateReduxContact = data => {
+  const updateReduxContact = (data: any) => {
     dispatch(globalAction.setContact(data));
   };
 
@@ -31,7 +29,7 @@ const PageOne = ({navigation, route}) => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({item, index}: any) => {
     return (
       <TouchableOpacity
         onPress={() => {

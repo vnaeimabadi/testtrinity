@@ -4,23 +4,23 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Avatar} from '../../components/atoms/Avatar';
 import {Header} from '../../components/Header';
 import {Separator} from '../../components/Separator';
-import { wait } from '../../helpers/wait';
+import {wait} from '../../helpers/wait';
 import {globalAction} from '../../store/reducers';
 
-const PageTwo = ({navigation}) => {
+const PageTwo = ({navigation}: any) => {
   const dispatch = useDispatch();
   const [saving, setSaving] = useState(false);
   const [updated, setUpdate] = useState({status: '', message: ''});
   const {selectedContact} = useSelector(state => state.globalState);
   const [singleContact, setSingleContact] = useState(selectedContact);
-  const updateContact = data => {
+  const updateContact = (data: any) => {
     dispatch(globalAction.updateContactList(data));
   };
 
   const lastName_Ref = useRef();
   const email_Ref = useRef();
   const phone_Ref = useRef();
-  const updateInput = (text, type) => {
+  const updateInput = (text: any, type: any) => {
     setSingleContact({...singleContact, [type]: text});
   };
   const updateSingleUser = () => {
@@ -47,7 +47,7 @@ const PageTwo = ({navigation}) => {
     );
   };
 
-  const renderInput = ({label, value, onChangeText, ref, toRef}) => {
+  const renderInput = ({label, value, onChangeText, ref, toRef}: any) => {
     return (
       <View
         style={{
@@ -104,7 +104,7 @@ const PageTwo = ({navigation}) => {
           </Text>
           {renderInput({
             label: 'First Name',
-            onChangeText: text => {
+            onChangeText: (text: any) => {
               updateInput(text, 'firstName');
             },
             value: singleContact.firstName,
@@ -113,7 +113,7 @@ const PageTwo = ({navigation}) => {
           <Separator height={1} />
           {renderInput({
             label: 'Last Name',
-            onChangeText: text => {
+            onChangeText: (text: any) => {
               updateInput(text, 'lastName');
             },
             value: singleContact.lastName,
@@ -135,7 +135,7 @@ const PageTwo = ({navigation}) => {
           </Text>
           {renderInput({
             label: 'Email',
-            onChangeText: text => {
+            onChangeText: (text: any) => {
               updateInput(text, 'email');
             },
             value: singleContact.email,
@@ -145,7 +145,7 @@ const PageTwo = ({navigation}) => {
           <Separator height={1} />
           {renderInput({
             label: 'Phone',
-            onChangeText: text => {
+            onChangeText: (text: any) => {
               updateInput(text, 'phone');
             },
             value: singleContact.phone,
