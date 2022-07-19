@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, TextInput, ScrollView, Dimensions} from 'react-native';
+import {View, Text, TextInput, ScrollView, Keyboard} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Avatar} from '../../components/atoms/Avatar';
 import {Header} from '../../components/Header';
@@ -9,6 +9,7 @@ import {globalAction} from '../../store/reducers';
 const PageTwo = ({navigation}) => {
   const dispatch = useDispatch();
   const [saving, setSaving] = useState(false);
+  const [updated, setUpdate] = useState({status: '', message: ''});
   const {selectedContact} = useSelector(state => state.globalState);
   const [singleContact, setSingleContact] = useState(selectedContact);
   const updateContact = data => {
@@ -25,11 +26,16 @@ const PageTwo = ({navigation}) => {
     if (saving) {
       return;
     }
+    Keyboard.dismiss();
     setSaving(true);
     if (Boolean(singleContact.firstName) && Boolean(singleContact.lastName)) {
-      console.log('contact updated!');
+      updateContact(singleContact);
+      setUpdate({status: 'success', message: 'updated!'});
     } else {
-      console.log('firstName and lastName is required!');
+      setUpdate({
+        status: 'error',
+        message: 'firstName and lastName are required!',
+      });
     }
     setSaving(false);
   };
@@ -154,6 +160,25 @@ const PageTwo = ({navigation}) => {
         rightTitle="Save"
         onPressRight={updateSingleUser}
       />
+      {Boolean(updated.status) && (
+        <View
+          style={{
+            backgroundColor: updated.status === 'success' ? 'green' : 'red',
+            height: 46,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 16,
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+            }}>
+            {updated.message}
+          </Text>
+        </View>
+      )}
       {selectedContact ? renderContent() : <Text>Loading...</Text>}
     </View>
   );

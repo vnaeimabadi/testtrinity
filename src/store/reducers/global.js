@@ -15,6 +15,12 @@ const globalSlice = createSlice({
     updateSelectedContact(state, action) {
       state.selectedContact = action.payload;
     },
+    updateContactList(state, action) {
+      const tempData=state.contactlist.map((el,_)=>{
+        return action.payload.id===el.id?action.payload:el
+      })
+      state.contactlist = tempData;
+    },
   },
 });
 export const globalAction = globalSlice.actions;
