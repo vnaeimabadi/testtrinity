@@ -11,6 +11,7 @@ import {horizontalAnimation} from '../../App';
 const Stack = createStackNavigator();
 const Layout = () => {
 
+
   return (
     <SafeAreaProvider>
       <View style={{display: 'flex', flex: 1}}>

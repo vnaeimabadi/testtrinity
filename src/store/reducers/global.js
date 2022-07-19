@@ -9,8 +9,11 @@ const globalSlice = createSlice({
   name: 'globalState',
   initialState,
   reducers: {
-    updateContactListList(state, action) {
+    setContact(state, action) {
       state.contactlist = action.payload;
+    },
+    updateSelectedContact(state, action) {
+      state.selectedContact = action.payload;
     },
   },
 });
