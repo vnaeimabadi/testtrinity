@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, TextInput, ScrollView, Dimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Avatar} from '../../components/atoms/Avatar';
@@ -8,17 +8,33 @@ import {globalAction} from '../../store/reducers';
 
 const PageTwo = ({navigation}) => {
   const dispatch = useDispatch();
+  const [saving, setSaving] = useState(false);
   const {selectedContact} = useSelector(state => state.globalState);
   const [singleContact, setSingleContact] = useState(selectedContact);
   const updateContact = data => {
     dispatch(globalAction.updateContactList(data));
   };
 
+  const lastName_Ref = useRef();
+  const email_Ref = useRef();
+  const phone_Ref = useRef();
   const updateInput = (text, type) => {
     setSingleContact({...singleContact, [type]: text});
   };
+  const updateSingleUser = () => {
+    if (saving) {
+      return;
+    }
+    setSaving(true);
+    if (Boolean(singleContact.firstName) && Boolean(singleContact.lastName)) {
+      console.log('contact updated!');
+    } else {
+      console.log('firstName and lastName is required!');
+    }
+    setSaving(false);
+  };
 
-  const renderInput = ({label, value, onChangeText}) => {
+  const renderInput = ({label, value, onChangeText, ref, toRef}) => {
     return (
       <View
         style={{
@@ -31,6 +47,7 @@ const PageTwo = ({navigation}) => {
           {label}
         </Text>
         <TextInput
+          ref={ref}
           style={{
             flex: 1,
             height: 40,
@@ -39,6 +56,10 @@ const PageTwo = ({navigation}) => {
             borderRadius: 5,
             borderWidth: 1,
           }}
+          onSubmitEditing={() => {
+            toRef?.focus();
+          }}
+          returnKeyType="next"
           value={value}
           onChangeText={onChangeText}
         />
@@ -74,6 +95,7 @@ const PageTwo = ({navigation}) => {
               updateInput(text, 'firstName');
             },
             value: singleContact.firstName,
+            toRef: lastName_Ref.current,
           })}
           <Separator height={1} />
           {renderInput({
@@ -82,6 +104,8 @@ const PageTwo = ({navigation}) => {
               updateInput(text, 'lastName');
             },
             value: singleContact.lastName,
+            ref: lastName_Ref,
+            toRef: email_Ref.current,
           })}
           <Separator height={1} />
         </View>
@@ -102,6 +126,8 @@ const PageTwo = ({navigation}) => {
               updateInput(text, 'email');
             },
             value: singleContact.email,
+            ref: email_Ref,
+            toRef: phone_Ref.current,
           })}
           <Separator height={1} />
           {renderInput({
@@ -110,6 +136,7 @@ const PageTwo = ({navigation}) => {
               updateInput(text, 'phone');
             },
             value: singleContact.phone,
+            ref: phone_Ref,
           })}
           <Separator height={1} />
         </View>
@@ -117,11 +144,6 @@ const PageTwo = ({navigation}) => {
     );
   };
 
-  const updateSingleUser = () => {};
-
-  useEffect(() => {
-    console.log('single===>', singleContact);
-  });
   return (
     <View style={{flex: 1}}>
       <Header
