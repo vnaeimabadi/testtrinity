@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, Text, TextInput, ScrollView, Keyboard} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Avatar} from '../../components/atoms/Avatar';
