@@ -38,6 +38,12 @@ const PageTwo = ({navigation}) => {
       });
     }
     setSaving(false);
+    setTimeout(()=>{
+      setUpdate({
+        status: '',
+        message: '',
+      });
+    },2000)
   };
 
   const renderInput = ({label, value, onChangeText, ref, toRef}) => {
