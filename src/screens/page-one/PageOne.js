@@ -1,26 +1,43 @@
 import React, {useEffect} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {globalAction} from '../../store/reducers';
 import {RouteNames} from '../../constants';
 import data from '../../allContacts/data.json';
 import {Avatar} from '../../components/atoms/Avatar';
 import {Header} from '../../components/Header';
+import { wait } from '../../helpers/wait';
+
+
 
 const PageOne = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {contactlist} = useSelector(state => state.globalState);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const updateReduxContact = data => {
     dispatch(globalAction.setContact(data));
   };
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    updateReduxContact(data);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   const renderItem = ({item, index}) => {
     return (
-      <TouchableOpacity onPress={() => {
-        dispatch(globalAction.updateSelectedContact(item));
-        navigation.navigate(RouteNames.PageTwo)
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(globalAction.updateSelectedContact(item));
+          navigation.navigate(RouteNames.PageTwo);
+        }}>
         <View
           style={{
             flexDirection: 'row',
@@ -44,10 +61,7 @@ const PageOne = ({navigation, route}) => {
 
   useEffect(() => {
     if (!Boolean(contactlist)) {
-      console.log(data);
       updateReduxContact(data);
-    } else {
-      console.log('data => ', contactlist);
     }
   }, []);
 
@@ -56,9 +70,9 @@ const PageOne = ({navigation, route}) => {
       <Header
         title="Contacts"
         leftIcon="ri-search-line"
-        onPressLeft={()=>{}}
+        onPressLeft={() => {}}
         rightIcon="ri-add-line"
-        onPressRight={()=>{}}
+        onPressRight={() => {}}
       />
       {contactlist ? (
         <FlatList
@@ -71,6 +85,9 @@ const PageOne = ({navigation, route}) => {
             paddingHorizontal: 10,
             paddingTop: 10,
           }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           contentContainerStyle={{paddingBottom: 10}}
           ItemSeparatorComponent={() => {
             return <View style={{height: 1, backgroundColor: 'gray'}}></View>;

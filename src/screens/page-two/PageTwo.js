@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Avatar} from '../../components/atoms/Avatar';
 import {Header} from '../../components/Header';
 import {Separator} from '../../components/Separator';
+import { wait } from '../../helpers/wait';
 import {globalAction} from '../../store/reducers';
 
 const PageTwo = ({navigation}) => {
@@ -38,12 +39,12 @@ const PageTwo = ({navigation}) => {
       });
     }
     setSaving(false);
-    setTimeout(()=>{
+    wait(2000).then(() =>
       setUpdate({
         status: '',
         message: '',
-      });
-    },2000)
+      }),
+    );
   };
 
   const renderInput = ({label, value, onChangeText, ref, toRef}) => {
